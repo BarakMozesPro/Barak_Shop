@@ -2,7 +2,8 @@
 
 export default function Loading() {
   return (
-    <div className=" flex flex-col items-center justify-center text-center   py-8 px-6 md:h-screen ">
+
+    <div className=" flex flex-col items-center justify-center text-center   py-8 px-6 md:h-screen">
     <p className="text-green-800 pb-5 animate-pulse">Loading...</p>
   <div role="status">
     <svg

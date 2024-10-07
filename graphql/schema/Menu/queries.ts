@@ -37,14 +37,23 @@ builder.queryFields((t) => ({
     },
   }),
 
+  // Add support for filtering menus by category
   getMenus: t.prismaConnection({
     type: "Menu",
     cursor: "id",
-    resolve: async (query, _parent, _args, _context) => {
-      const menus = await prisma.menu.findMany({ ...query });
+    args: {
+      category: t.arg.string({ required: false }), // Add category argument
+    },
+    resolve: async (query, _parent, args, _context) => {
+      const where = args.category ? { category: args.category } : {}; // Apply category filter if provided
+      const menus = await prisma.menu.findMany({
+        ...query,
+        where,
+      });
       return menus;
     },
   }),
+
 
   getMenuUserFavorites: t.prismaField({
     type: ["Menu"],

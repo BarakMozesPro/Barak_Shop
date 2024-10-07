@@ -339,6 +339,44 @@ export type User = {
   role: Role;
 };
 
+export type GetCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetCategoriesQuery = { __typename?: 'Query', getCategories: Array<{ __typename?: 'Category', desc: string, id: string, img: string, title: string }> };
+
+export type GetCategoryQueryVariables = Exact<{
+  getCategoryId: Scalars['String']['input'];
+}>;
+
+
+export type GetCategoryQuery = { __typename?: 'Query', getCategory: { __typename?: 'Category', desc: string, id: string, img: string, title: string } };
+
+export type AddCategoryMutationVariables = Exact<{
+  desc: Scalars['String']['input'];
+  img: Scalars['String']['input'];
+  title: Scalars['String']['input'];
+}>;
+
+
+export type AddCategoryMutation = { __typename?: 'Mutation', addCategory: { __typename?: 'Category', desc: string, img: string, title: string } };
+
+export type DeleteCategoryMutationVariables = Exact<{
+  deleteCategoryId: Scalars['String']['input'];
+}>;
+
+
+export type DeleteCategoryMutation = { __typename?: 'Mutation', deleteCategory: { __typename?: 'Category', title: string } };
+
+export type EditCategoryMutationVariables = Exact<{
+  desc: Scalars['String']['input'];
+  editCategoryId: Scalars['String']['input'];
+  img: Scalars['String']['input'];
+  title: Scalars['String']['input'];
+}>;
+
+
+export type EditCategoryMutation = { __typename?: 'Mutation', editCategory: { __typename?: 'Category', desc: string, id: string, img: string, title: string } };
+
 export type GetUserFavoritesQueryVariables = Exact<{
   userEmail: Scalars['String']['input'];
 }>;
@@ -492,6 +530,72 @@ export type EditProfileMutationVariables = Exact<{
 export type EditProfileMutation = { __typename?: 'Mutation', editProfile: { __typename?: 'Profile', id: string } };
 
 
+export const GetCategoriesDocument = gql`
+    query GetCategories {
+  getCategories {
+    desc
+    id
+    img
+    title
+  }
+}
+    `;
+
+export function useGetCategoriesQuery(options?: Omit<Urql.UseQueryArgs<GetCategoriesQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetCategoriesQuery, GetCategoriesQueryVariables>({ query: GetCategoriesDocument, ...options });
+};
+export const GetCategoryDocument = gql`
+    query GetCategory($getCategoryId: String!) {
+  getCategory(id: $getCategoryId) {
+    desc
+    id
+    img
+    title
+  }
+}
+    `;
+
+export function useGetCategoryQuery(options: Omit<Urql.UseQueryArgs<GetCategoryQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetCategoryQuery, GetCategoryQueryVariables>({ query: GetCategoryDocument, ...options });
+};
+export const AddCategoryDocument = gql`
+    mutation AddCategory($desc: String!, $img: String!, $title: String!) {
+  addCategory(desc: $desc, img: $img, title: $title) {
+    desc
+    img
+    title
+  }
+}
+    `;
+
+export function useAddCategoryMutation() {
+  return Urql.useMutation<AddCategoryMutation, AddCategoryMutationVariables>(AddCategoryDocument);
+};
+export const DeleteCategoryDocument = gql`
+    mutation DeleteCategory($deleteCategoryId: String!) {
+  deleteCategory(id: $deleteCategoryId) {
+    title
+  }
+}
+    `;
+
+export function useDeleteCategoryMutation() {
+  return Urql.useMutation<DeleteCategoryMutation, DeleteCategoryMutationVariables>(DeleteCategoryDocument);
+};
+export const EditCategoryDocument = gql`
+    mutation EditCategory($desc: String!, $editCategoryId: String!, $img: String!, $title: String!) {
+  editCategory(desc: $desc, id: $editCategoryId, img: $img, title: $title) {
+    desc
+    id
+    img
+    title
+  }
+}
+    `;
+
+export function useEditCategoryMutation() {
+  return Urql.useMutation<EditCategoryMutation, EditCategoryMutationVariables>(EditCategoryDocument);
+};
 export const GetUserFavoritesDocument = gql`
     query GetUserFavorites($userEmail: String!) {
   getUserFavorites(userEmail: $userEmail) {
